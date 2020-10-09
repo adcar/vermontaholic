@@ -1,9 +1,15 @@
 # vermontaholic
+
 Vermontaholic
+
 Requirements Document
+
 Last Revised: September 23, 2020
+
 Peter C. Chapin <pchapin@vtc.edu>
+
 Introduction
+
 The 251 Club enjoys exploring the different towns in Vermont. These people currently keep track of their visited towns in a paper journal. To better keep track of their visited towns, and to share comments of these towns, they need a web application. They also need a way to prove they visited all 251 towns in Vermont. This web application, called Vermontaholic, will be able to perform all of these use cases.
 Wayfarer is a system that allows visitors to manage their exploration of the towns of Vermont. It gives visitors a way to record information about each visit, in a journal-like manner, and share that information with others. Ultimately, Wayfarer is intended to support members of the 251 Club of Vermont by connecting to the 251 Club’s backend database of users and recorded comments and photos. However, as a simplification, Vermontaholic will initially be designed for use by anyone and have no explicit connection with the 251 Club. Although the concept of “town bagging” is not unique to Vermont, Vermontaholic as currently imagined focuses on that one state, also as a simplification.
 The rest of this document describes the detailed functional and non-function requirements for Vermontaholic.
