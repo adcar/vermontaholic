@@ -1,13 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Towns from './App';
 import * as serviceWorker from './serviceWorker';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import green from "@material-ui/core/colors/green";
+import {CssBaseline} from "@material-ui/core";
+import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
+
+import deepPurple from "@material-ui/core/colors/deepPurple";
+
+const theme = responsiveFontSizes(createMuiTheme({
+  palette: {
+    primary: {
+      main: deepPurple[500],
+    },
+    secondary: {
+      main: green[500],
+    },
+  },
+}));
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <>
+    <CssBaseline />
+    <ThemeProvider theme={theme}>
+    <Towns />
+    </ThemeProvider>
+    </>,
   document.getElementById('root')
 );
 
