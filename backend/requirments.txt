@@ -2,3 +2,4 @@ flask
 flask-login
 flask-bcrypt
 flask-sqlalchemy
+flask-cors
