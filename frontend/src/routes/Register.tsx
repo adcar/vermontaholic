@@ -23,6 +23,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 function Register() {
   const history = useHistory();
   const classes = useStyles();
@@ -60,6 +65,7 @@ function Register() {
         localStorage.setItem('username', json.username);
         setSnackOpen(true);
         setSnackMsg("Successfully registered. Redirecting you to the login page...");
+        await sleep(3000);
         history.push("/login");
       } else {
         setSnackOpen(true);
