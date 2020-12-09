@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -33,8 +34,8 @@ function Home() {
           and share your beautiful photos of Vermont!
         </Typography>
         <div className={classes.cta}>
-          <Button color={"primary"} variant={"contained"} disableElevation>Signup</Button>
-          <Button color={"primary"} style={{marginLeft: 10}}>Login</Button>
+          <Button color={"primary"} variant={"contained"} disableElevation component={Link} to={"/signup"}>Signup</Button>
+          <Button color={"primary"} style={{marginLeft: 10}} component={Link} to={"/login"}>Login</Button>
         </div>
       </Grid>
       <Grid item md={6}>

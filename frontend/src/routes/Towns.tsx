@@ -5,6 +5,7 @@ import useAsyncEffect from "use-async-effect";
 import TownButton from "../TownButton";
 
 function Towns() {
+
   const [towns, setTowns] = useState([]);
   useAsyncEffect(async () => {
     // will be replaced with /towns
