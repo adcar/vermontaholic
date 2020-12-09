@@ -18,6 +18,7 @@ login.login_view = 'login'
 @app.before_first_request
 def create_db():
     db.create_all()
+    
 
 
 # An endpoint I am using for testing
@@ -79,7 +80,9 @@ def getVisitedTowns(user):
 
     locationList = []
     for row in rows:
-        if user in row.visitors:
+        if row.visitors == None:
+            isVisited = False
+        elif user in row.visitors:
             isVisited = True
         else:
             isVisited = False
@@ -94,8 +97,12 @@ def visitTown(user, visitedTown):
     if town == None:
         return jsonify({'status': 'failure', 'msg': 'Town not Found'})
 
-    visitorString = town.visitors
-    visitorString = visitorString + ',' + user
+    if town.visitors != None:
+        visitorString = town.visitors
+        visitorString = visitorString + ',' + user
+    else:
+        visitorString = user
+        
     town.visitors = visitorString
     db.session.add(town)
     db.session.commit()
