@@ -51,7 +51,7 @@ function Login({onLogin}: any) {
         setSnackOpen(true);
         setSnackMsg("Successfully logged in. Redirecting...");
         onLogin();
-        history.push("/towns");
+        history.push("/towns/" + json.username);
       } else {
         setSnackOpen(true);
         setSnackMsg("Username or password incorrect. Please try again.");

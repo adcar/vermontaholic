@@ -13,12 +13,13 @@ login.init_app(app)
 login.login_view = 'login'
 
 
-
 # Creates the database if one does not already exist
 @app.before_first_request
 def create_db():
     db.create_all()
-    
+    testLocation = Locations(location='Burlington')
+    db.session.add(testLocation)
+    db.session.commit()
 
 
 # An endpoint I am using for testing
@@ -40,7 +41,7 @@ def register():
         # Checks if the username already exists
         if Users.query.filter_by(username=username).first():
             return jsonify({'status': 'error',
-                            'msg': 'Username already taken'}) 
+                            'msg': 'Username already taken'})
 
         user = Users(username=username)
         user.set_password(password)
@@ -64,7 +65,7 @@ def login():
             return jsonify({'status': 'success', 'msg': 'Successfully logged in', 'username': username})
         else:
             return jsonify(
-                {'status': 'error', 'msg': 'Failed to login'})  
+                {'status': 'error', 'msg': 'Failed to login'})
     else:
         return jsonify({'status': 'error', 'msg': 'This endpoint only accepts POST requests'})
 
@@ -73,6 +74,7 @@ def login():
 def logout():
     logout_user()
     return jsonify({'status': 'success', 'msg': 'Successfully logged out'})
+
 
 @app.route('/towns/<user>', methods=['GET'])
 def getVisitedTowns(user):
@@ -86,14 +88,15 @@ def getVisitedTowns(user):
             isVisited = True
         else:
             isVisited = False
-        
-        locationList.append({'name' : row.location, 'isVisited' : isVisited})
+
+        locationList.append({'name': row.location, 'isVisited': isVisited})
     return jsonify(locationList)
 
+
 @app.route('/<user>/visit/<visitedTown>')
-#@login_required #disabled for testing purposes
+# @login_required #disabled for testing purposes
 def visitTown(user, visitedTown):
-    town = Locations.query.filter_by(location = visitedTown).first()
+    town = Locations.query.filter_by(location=visitedTown).first()
     if town == None:
         return jsonify({'status': 'failure', 'msg': 'Town not Found'})
 
@@ -102,11 +105,11 @@ def visitTown(user, visitedTown):
         visitorString = visitorString + ',' + user
     else:
         visitorString = user
-        
+
     town.visitors = visitorString
     db.session.add(town)
     db.session.commit()
-    
+
     return jsonify({'status': 'success', 'msg': 'Successfully visited town'})
 
 # app.run(host='localhost', port=5000)
