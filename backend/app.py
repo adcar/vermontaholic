@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, jsonify
 from flask_login import login_required, current_user, login_user, logout_user
-from userdb import Users, db, login, Locations
+from userdb import Users, db, login, Locations, SummaryModel
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -108,5 +108,23 @@ def visitTown(user, visitedTown):
     db.session.commit()
     
     return jsonify({'status': 'success', 'msg': 'Successfully visited town'})
+
+@app.route('/<town>/summary/<username>', methods = ['GET', 'POST'])
+def summaries(town, username):
+    if request.method == 'POST':
+        summary = request.form['summary']
+        dbentry = SummaryModel()
+        dbentry.user = username
+        dbentry.location = town
+        dbentry.summary = summary
+        db.session.add(dbentry)
+        db.session.commit()
+        return jsonify({'status': 'success', 'msg': 'Summary posted'})   
+    elif request.method == 'GET':
+        summary = SummaryModel.query.filter_by(user = username).first()
+        if summary == None:
+            return jsonify({'Location' : 'Unknown', 'Summary' : 'None'})
+        return jsonify({'Location' : summary.location, 'Summary' : summary.summary})
+    
 
 # app.run(host='localhost', port=5000)

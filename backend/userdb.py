@@ -21,9 +21,16 @@ class Users(UserMixin, db.Model):
 
 class Locations(db.Model):
     __tablename__ = 'towns'
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     visitors = db.Column(db.String(1024))
 
+class SummaryModel(db.Model):
+    __tablename__ = 'summaries'
+    id = db.Column(db.Integer, primary_key=True)
+    location = db.Column(db.String(64))
+    user = db.Column(db.String(64))
+    summary = db.Column(db.String(1024))
 
 @login.user_loader
 def load_user(id):
