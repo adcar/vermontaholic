@@ -50,7 +50,7 @@ export default function App() {
           <Route path="/towns/:username">
             <Towns />
           </Route>
-          <Route path="/town/:town">
+          <Route path="/town/:town/:username/:isVisited">
             <Town />
           </Route>
           <Route path="/signup">
@@ -63,7 +63,6 @@ export default function App() {
           </Route>
           <Route path="/">
             {isLoggedIn ? <Redirect to={"towns/" + username} /> : <Home />}
-
           </Route>
         </Switch>
       </div>

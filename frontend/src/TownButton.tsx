@@ -8,51 +8,22 @@ import {ENDPOINT} from "./api";
 
 
 function ListItemBtn(props: any) {
-  return <ListItem button {...props} />;
+  return <ListItem button component={Link} {...props} />;
 }
 
-function TownButton({town, isVisited, username, isAuthed}: {town: string, isVisited: boolean, username: string, isAuthed: boolean}) {
+function TownButton({town, isVisited, username}: {town: string, isVisited: boolean, username: string }) {
 
-  const [visited, visit] = useState(isVisited);
-  function handleClick() {
-    visit(true);
-    (async () => {
-      const res = await fetch(ENDPOINT + "/" + username + "/visit/" + town);
-      const json = await res.json();
-      if (json.status !== "success") {
-        //toast
-      }
 
-    })();
-  }
-  if (isAuthed && !visited) {
-    return (
-      <ListItemBtn  onClick={handleClick} style={{
+  return (
+    <ListItemBtn to={`/town/${town}/${username}/${isVisited}`} style={{
+      backgroundColor: isVisited ? deepPurple[500] : "transparent",
+      color: isVisited ? "white" : "black",
+      marginTop: 10,
+      marginBottom: 10
+  }}>
+    <ListItemText primary={town} />
 
-        backgroundColor: visited ? deepPurple[500] : "transparent",
-        color: visited ? "white" : "black",
-        marginTop: 10,
-        marginBottom: 10
-      }}>
-        <ListItemText primary={town} />
-       <Button>Mark as visited</Button>
-
-      </ListItemBtn>
-    )
-  } else {
-    return (
-      <ListItemBtn style={{
-
-        backgroundColor: visited ? deepPurple[500] : "transparent",
-        color: visited ? "white" : "black",
-        marginTop: 10,
-        marginBottom: 10
-      }}>
-        <ListItemText primary={town} />
-
-      </ListItemBtn>
-    )
-  }
+  </ListItemBtn>)
 
 }
 
