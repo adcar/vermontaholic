@@ -87,13 +87,13 @@ def getVisitedTowns(user):
         else:
             isVisited = False
         
-        locationList.append({'name' : row.location, 'isVisited' : isVisited})
+        locationList.append({'name' : row.name, 'isVisited' : isVisited})
     return jsonify(locationList)
 
 @app.route('/<user>/visit/<visitedTown>')
 #@login_required #disabled for testing purposes
 def visitTown(user, visitedTown):
-    town = Locations.query.filter_by(location = visitedTown).first()
+    town = Locations.query.filter_by(name = visitedTown).first()
     if town == None:
         return jsonify({'status': 'failure', 'msg': 'Town not Found'})
 
@@ -102,7 +102,7 @@ def visitTown(user, visitedTown):
         visitorString = visitorString + ',' + user
     else:
         visitorString = user
-        
+
     town.visitors = visitorString
     db.session.add(town)
     db.session.commit()
