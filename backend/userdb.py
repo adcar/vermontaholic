@@ -20,10 +20,9 @@ class Users(UserMixin, db.Model):
         return bcrypt.check_password_hash(self.hashed_pass, password)
 
 class Locations(db.Model):
-    __tablename__ = 'locations'
-    id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.String(64))
-    visitors = db.Column(db.String(255))
+    __tablename__ = 'towns'
+    name = db.Column(db.String(64))
+    visitors = db.Column(db.String(1024))
 
 
 @login.user_loader
