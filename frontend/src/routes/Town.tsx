@@ -11,7 +11,7 @@ import Paper from "@material-ui/core/Paper";
 
 function Town() {
   const {town, username, isVisited} = useParams();
-  const [visited, visit] = useState(isVisited);
+  const [visited, visit] = useState(isVisited === "true");
   const [summary, setSummary] = useState("");
   const [summaryText, setSummaryText] = useState("");
   function handleClick() {
@@ -57,7 +57,7 @@ function Town() {
       setSummary(summaryText);
     })();
   }
-
+  console.log(visited);
   return (
     <Container>
 
