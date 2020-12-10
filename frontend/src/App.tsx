@@ -47,7 +47,7 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route path="/towns">
+          <Route path="/towns/:username">
             <Towns />
           </Route>
           <Route path="/town/:town">
@@ -62,7 +62,7 @@ export default function App() {
             }}/>
           </Route>
           <Route path="/">
-            {isLoggedIn ? <Redirect to={"towns"} /> : <Home />}
+            {isLoggedIn ? <Redirect to={"towns/" + username} /> : <Home />}
 
           </Route>
         </Switch>
