@@ -20,11 +20,18 @@ def create_db():
     db.create_all()
     
 
-
 # An endpoint I am using for testing
 @app.route('/test')
-@login_required
 def testpage():
+    dbentry = SummaryModel()
+    username = 'bob'
+    summary = 'This is a test'
+    town = 'Panton'
+    dbentry.user = username
+    dbentry.location = town
+    dbentry.summary = summary
+    db.session.add(dbentry)
+    db.session.commit()
     return render_template('test.html')
 
 
@@ -91,7 +98,7 @@ def getVisitedTowns(user):
     return jsonify(locationList)
 
 @app.route('/<user>/visit/<visitedTown>')
-#@login_required #disabled for testing purposes
+@login_required
 def visitTown(user, visitedTown):
     town = Locations.query.filter_by(name = visitedTown).first()
     if town == None:
@@ -110,6 +117,7 @@ def visitTown(user, visitedTown):
     return jsonify({'status': 'success', 'msg': 'Successfully visited town'})
 
 @app.route('/<town>/summary/<username>', methods = ['GET', 'POST'])
+@login_required
 def summaries(town, username):
     if request.method == 'POST':
         summary = request.form['summary']
@@ -121,7 +129,7 @@ def summaries(town, username):
         db.session.commit()
         return jsonify({'status': 'success', 'msg': 'Summary posted'})   
     elif request.method == 'GET':
-        summary = SummaryModel.query.filter_by(user = username).first()
+        summary = SummaryModel.query.filter_by(user = username, location = town).first()
         if summary == None:
             return jsonify({'Location' : 'Unknown', 'Summary' : 'None'})
         return jsonify({'Location' : summary.location, 'Summary' : summary.summary})
