@@ -1,4 +1,4 @@
-export const ENDPOINT = "http://127.0.0.1:5000";
+export const ENDPOINT = "http://73.227.239.8:5000";
 export const FETCH_POST = {
   method: 'POST',
   headers: {

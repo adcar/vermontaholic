@@ -15,8 +15,10 @@ import Town from "./routes/Town";
 import Register from "./routes/Register";
 import Login from "./routes/Login";
 import {ENDPOINT} from "./api";
+import {useHistory} from "react-router-dom";
 
 export default function App() {
+
   const username = localStorage.getItem("username");
   const [isLoggedIn, setIsLoggedIn] = useState(username !== null);
   function logout() {
@@ -24,6 +26,7 @@ export default function App() {
       const res = await fetch(ENDPOINT + "/logout");
       const json = await res.json();
       console.log(json);
+      window.location.href = "http://vermontaholic.tk";
     })();
     localStorage.removeItem("username");
     setIsLoggedIn(localStorage.getItem("username") !== null);
@@ -50,7 +53,7 @@ export default function App() {
           <Route path="/towns/:username">
             <Towns />
           </Route>
-          <Route path="/town/:town">
+          <Route path="/town/:town/:username/:isVisited">
             <Town />
           </Route>
           <Route path="/signup">
@@ -63,7 +66,6 @@ export default function App() {
           </Route>
           <Route path="/">
             {isLoggedIn ? <Redirect to={"towns/" + username} /> : <Home />}
-
           </Route>
         </Switch>
       </div>

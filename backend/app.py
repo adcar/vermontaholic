@@ -14,12 +14,10 @@ login.init_app(app)
 login.login_view = 'login'
 
 
-
 # Creates the database if one does not already exist
 @app.before_first_request
 def create_db():
     db.create_all()
-    
 
 # An endpoint I am using for testing
 @app.route('/test')
@@ -48,7 +46,7 @@ def register():
         # Checks if the username already exists
         if Users.query.filter_by(username=username).first():
             return jsonify({'status': 'error',
-                            'msg': 'Username already taken'}) 
+                            'msg': 'Username already taken'})
 
         user = Users(username=username)
         user.set_password(password)
@@ -72,7 +70,7 @@ def login():
             return jsonify({'status': 'success', 'msg': 'Successfully logged in', 'username': username})
         else:
             return jsonify(
-                {'status': 'error', 'msg': 'Failed to login'})  
+                {'status': 'error', 'msg': 'Failed to login'})
     else:
         return jsonify({'status': 'error', 'msg': 'This endpoint only accepts POST requests'})
 
@@ -81,6 +79,7 @@ def login():
 def logout():
     logout_user()
     return jsonify({'status': 'success', 'msg': 'Successfully logged out'})
+
 
 @app.route('/towns/<user>', methods=['GET'])
 def getVisitedTowns(user):
@@ -94,14 +93,15 @@ def getVisitedTowns(user):
             isVisited = True
         else:
             isVisited = False
-        
-        locationList.append({'name' : row.name, 'isVisited' : isVisited})
+
+        locationList.append({'name': row.name, 'isVisited': isVisited})
     return jsonify(locationList)
+
 
 @app.route('/<user>/visit/<visitedTown>')
 @login_required
 def visitTown(user, visitedTown):
-    town = Locations.query.filter_by(name = visitedTown).first()
+    town = Locations.query.filter_by(name=visitedTown).first()
     if town == None:
         return jsonify({'status': 'failure', 'msg': 'Town not Found'})
 
@@ -114,26 +114,25 @@ def visitTown(user, visitedTown):
     town.visitors = visitorString
     db.session.add(town)
     db.session.commit()
-    
+
     return jsonify({'status': 'success', 'msg': 'Successfully visited town'})
 
 @app.route('/<town>/summary/<username>', methods = ['GET', 'POST'])
 @login_required
 def summaries(town, username):
     if request.method == 'POST':
-        summary = request.form['summary']
+        summary = request.json['summary']
         dbentry = SummaryModel()
         dbentry.user = username
         dbentry.location = town
         dbentry.summary = summary
         db.session.add(dbentry)
         db.session.commit()
-        return jsonify({'status': 'success', 'msg': 'Summary posted'})   
+        return jsonify({'status': 'success', 'msg': 'Summary posted'})
     elif request.method == 'GET':
         summary = SummaryModel.query.filter_by(user = username, location = town).first()
         if summary == None:
-            return jsonify({'Location' : 'Unknown', 'Summary' : 'None'})
-        return jsonify({'Location' : summary.location, 'Summary' : summary.summary})
-    
+            return jsonify({'Location': 'Unknown', 'Summary': 'None'})
+        return jsonify({'Location': summary.location, 'Summary': summary.summary})
 
 # app.run(host='localhost', port=5000)

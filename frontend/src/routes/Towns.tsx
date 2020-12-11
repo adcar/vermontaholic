@@ -23,10 +23,11 @@ function Towns() {
   }, []);
   return (
     <Container>
+
       <Typography variant={"h2"} component={"h1"} style={{marginTop: 20}}>VT Towns</Typography>
 
       <div  style={{maxWidth: 400}}>
-        {towns.map((town: any, index) => <TownButton key={index} town={town.name} isVisited={town.isVisited} username={username} isAuthed={isAuthed}/>)}
+        {towns.map((town: any, index) => <TownButton key={index} town={town.name} isVisited={town.isVisited} username={username}/>)}
       </div>
     </Container>
   );
