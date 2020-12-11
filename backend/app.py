@@ -5,9 +5,10 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-app.debug = True
+app.debug = False
 app.secret_key = 'D9H7tVLEgL7#c5p'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 login.init_app(app)
 login.login_view = 'login'
